@@ -16,6 +16,8 @@
  */
 package com.salesmanager.shop.tags;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -31,13 +33,43 @@ import java.io.IOException;
  * @since 1.0.0
  */
 public class CommonResponseHeadersTag extends SimpleTagSupport {
+    private static final long serialVersionUID = 1L;
+    private static final Logger LOGGER = LoggerFactory.getLogger(CommonResponseHeadersTag.class);
 
+
+    private String cacheControl = "no-cache";
+    private String pragma = "no-cache";
+    private Integer expires = -1;
     @Override
     public void doTag() throws JspException, IOException {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletResponse response = attributes.getResponse();
-        response.setHeader("Cache-Control", "no-cache");
-        response.setHeader("Pragma", "no-cache");
-        response.setDateHeader("Expires", -1);
+        response.setHeader("Cache-Control", cacheControl);
+        response.setHeader("Pragma", pragma);
+        response.setDateHeader("Expires", expires);
+    }
+
+    public String getCacheControl() {
+        return cacheControl;
+    }
+
+    public void setCacheControl(String cacheControl) {
+        this.cacheControl = cacheControl;
+    }
+
+    public String getPragma() {
+        return pragma;
+    }
+
+    public void setPragma(String pragma) {
+        this.pragma = pragma;
+    }
+
+    public Integer getExpires() {
+        return expires;
+    }
+
+    public void setExpires(Integer expires) {
+        this.expires = expires;
     }
 }
